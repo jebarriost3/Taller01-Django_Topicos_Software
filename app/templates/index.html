@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Página de Inicio</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>console.log("Index.html cargado");</script>
+    <style>
+        /* Botón de perfil en la esquina superior izquierda */
+        .login-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        .login-btn a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón de perfil -->
+    <button class="login-btn">
+        <a href="{% url 'iniciar_sesion' %}">
+            <i class="fas fa-user-circle"></i> <!-- Icono de perfil -->
+        </a>
+    </button>
+
+    <h1>Bienvenido a ARTE-SANO</h1>
+    <p>Explora nuestros productos <a href="{% url 'lista_productos' %}">aquí</a>.</p>
+</body>
+</html>

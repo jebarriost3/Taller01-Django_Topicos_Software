@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Productos Más Vendidos</h2>
+
+{% if productos_vendidos %}
+    <table border="1">
+        <tr>
+            <th>Producto</th>
+            <th>Unidades Vendidas</th>
+        </tr>
+        {% for producto in productos_vendidos %}
+        <tr>
+            <td>{{ producto.producto__titulo }}</td>
+            <td>{{ producto.total_vendido }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No hay productos vendidos aún.</p>
+{% endif %}
+
+<a href="{% url 'lista_productos' %}">Volver a la tienda</a>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Tu Wishlist ❤️</h2>
+{% if productos %}
+    <table border="1">
+        <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+        </tr>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto.titulo }}</td>
+            <td>${{ producto.precio }}</td>
+            <td>
+                <a href="{% url 'eliminar_de_wishlist' producto.id %}">❌ Eliminar</a>
+                <form action="{% url 'agregar_al_carrito' producto.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">🛒 Añadir al Carrito</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No tienes productos en tu Wishlist.</p>
+{% endif %}
+<a href="{% url 'lista_productos' %}">Volver a la tienda</a>
+{% endblock %}
