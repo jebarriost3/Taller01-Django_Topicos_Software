@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Bienvenido a la tienda de artesanías</h1>
+
+<a href="{% url 'crear_producto' %}">Agregar Producto</a>
+<a href="{% url 'productos_mas_vendidos' %}">
+    <button>Ver Productos Más Vendidos</button>
+</a>
+
+<h2>Lista de Productos</h2>
+
+<!-- Formulario de filtro -->
+<form method="GET" action="{% url 'lista_productos' %}">
+    <label for="categoria">Categoría:</label>
+    <select name="categoria">
+        <option value="" {% if not categoria_seleccionada %}selected{% endif %}>Todas</option>
+        {% for categoria in categorias %}
+            <option value="{{ categoria.id }}" {% if categoria.id|stringformat:"s" == categoria_seleccionada %}selected{% endif %}>
+                {{ categoria.nombre }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" value="{{ nombre_buscado }}" placeholder="Buscar por nombre">
+
+    <button type="submit">Filtrar</button>
+        <!-- Botón para quitar filtros -->
+        <a href="{% url 'lista_productos' %}">
+            <button type="button">Quitar filtros</button>
+        </a>
+</form>
+
+<ul>
+    {% for producto in productos %}
+        <li>
+            <strong>{{ producto.titulo }}</strong> - ${{ producto.precio }}
+            <p>{{ producto.descripcion }}</p>
+            <p><strong>Stock:</strong> {{ producto.stock }} unidades</p>
+            <p><strong>Categoría:</strong> {{ producto.categoria.nombre }}</p>  <!-- Mostrar la categoría -->
+
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.titulo }}" width="100">
+            {% else %}
+                <p>No hay imagen disponible</p>
+            {% endif %}
+
+            <a href="{% url 'eliminar_producto' producto.id %}">Eliminar</a>
+
+            <form action="{% url 'agregar_al_carrito' producto.id %}" method="post">
+                {% csrf_token %}
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" value="1" min="1">
+                <button type="submit">Añadir al carrito</button>
+            </form>
+            <form action="{% url 'agregar_a_wishlist' producto.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">❤️ Añadir a Wishlist</button>
+            </form>
+            
+            
+        </li>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

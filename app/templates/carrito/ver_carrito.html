@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Tu Carrito de Compras</h2>
+
+{% if items %}
+    <table border="1">
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.producto.titulo }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>${{ item.producto.precio }}</td>
+            <td>${{ item.subtotal }}</td>
+            <td>
+                <!-- Botón para eliminar un producto -->
+                <form action="{% url 'eliminar_del_carrito' item.producto.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p><strong>Total: ${{ carrito.total }}</strong></p>
+    
+    <!-- Botón para Finalizar Compra -->
+    <form action="{% url 'finalizar_compra' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Finalizar Compra</button>
+    </form>
+{% else %}
+    <p>Tu carrito está vacío.</p>
+{% endif %}
+
+{% endblock %}

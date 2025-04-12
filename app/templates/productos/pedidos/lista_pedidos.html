@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Mis Pedidos</h2>
+{% if pedidos %}
+    <ul>
+        {% for pedido in pedidos %}
+            <li>
+                <strong>Pedido #{{ pedido.id }}</strong> - 
+                <span>Total: ${{ pedido.total }}</span> - 
+                <span>{{ pedido.fecha|date:"d/m/Y H:i" }}</span>
+                <ul>
+                    {% for detalle in pedido.detalles.all %}
+                        <li>{{ detalle.cantidad }} x {{ detalle.producto.titulo }} - ${{ detalle.subtotal }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No tienes pedidos aún.</p>
+{% endif %}
+
+{% endblock %}

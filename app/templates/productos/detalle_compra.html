@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Resumen de tu Compra</h2>
+
+<p><strong>Pedido #{{ pedido.id }}</strong></p>
+<p><strong>Fecha:</strong> {{ pedido.fecha|date:"d/m/Y H:i" }}</p>
+
+<h3>Productos Comprados:</h3>
+<table border="1">
+    <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Subtotal</th>
+    </tr>
+    {% for detalle in detalles %}
+    <tr>
+        <td>{{ detalle.producto.titulo }}</td>
+        <td>{{ detalle.cantidad }}</td>
+        <td>${{ detalle.precio_unitario }}</td>
+        <td>${{ detalle.subtotal }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p><strong>Total a Pagar: ${{ pedido.total }}</strong></p>
+
+<a href="{% url 'lista_productos' %}">Seguir Comprando</a>
+{% endblock %}
